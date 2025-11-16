@@ -1,0 +1,58 @@
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #343a40;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    font-size: 1.1rem; /* letras un poco más grandes */
+}
+
+.sidebar a {
+    color: white;
+    font-size: 1.05rem;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* espacio entre icono y texto */
+    transition: all 0.3s ease;
+}
+
+.sidebar i {
+    font-size: 1.3rem; /* iconos más grandes */
+    transition: all 0.3s ease;
+}
+
+/* Hover elegante */
+.sidebar a:hover {
+    background-color: #495057;
+    color: #ffc107; /* dorado */
+}
+
+.sidebar a:hover i {
+    color: #ffc107;
+    transform: scale(1.1);
+}
+
+/* Cuando un menú está desplegado */
+.sidebar .collapse.show a {
+    color: #ffc107;
+}
+
+.sidebar .collapse.show a i {
+    color: #ffc107;
+}
+
+.content {
+    margin-left: 260px;
+    padding: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-top: 1px solid #ddd;
+}

@@ -1,0 +1,41 @@
+﻿@model appRestauranteDSW_CoreMVC.Models.Mesas
+
+@{
+    ViewData["Title"] = "Eliminar Mesa";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Eliminar Mesa</h1>
+
+    <div class="alert alert-warning d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <div>¿Estás seguro de que deseas eliminar esta mesa?</div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.id)</dd>
+
+                <dt class="col-sm-3">Cantidad de Asientos</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.cantidad_asientos)</dd>
+
+                <dt class="col-sm-3">Estado</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.estado)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="d-flex">
+        <form asp-action="DeleteConfirmed" method="post" class="me-2">
+            <input type="hidden" asp-for="id" />
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash-fill"></i> Eliminar
+            </button>
+        </form>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver al listado
+        </a>
+    </div>
+</div>

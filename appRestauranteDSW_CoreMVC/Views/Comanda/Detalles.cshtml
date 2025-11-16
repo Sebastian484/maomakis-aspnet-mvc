@@ -1,0 +1,50 @@
+﻿@model IEnumerable<appRestauranteDSW_CoreMVC.Models.DetalleComandaViewModel>
+
+@{
+    ViewData["Title"] = "Detalles de la Comanda";
+}
+
+<h3 class="mb-3">📝 Detalles de la Comanda #@ViewBag.ComandaId</h3>
+
+<div class="mt-3">
+    @if (Model == null || !Model.Any())
+    {
+        <div class="text-muted">No hay platos en esta comanda.</div>
+    }
+    else
+    {
+        foreach (var d in Model)
+        {
+            <div class="card mb-2 border-0 shadow-sm">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3">
+                        @if (!string.IsNullOrEmpty(d.PlatoImagen))
+                        {
+                            <img src="@d.PlatoImagen"
+                                 alt="@d.NombrePlato"
+                                 style="width:70px;height:70px;object-fit:cover;border-radius:8px;" />
+                        }
+                        else
+                        {
+                            <div class="bg-light d-flex align-items-center justify-content-center"
+                                 style="width:70px;height:70px;border-radius:8px;">
+                                Sin imagen
+                            </div>
+                        }
+                    </div>
+                    <div>
+                        <h6 class="mb-1">@d.NombrePlato</h6>
+                        <div class="small text-muted">
+                            <strong>🍽 Cantidad:</strong> @d.Cantidad<br />
+                            <strong>📝 Obs:</strong> @(string.IsNullOrWhiteSpace(d.Observacion) ? "Ninguna" : d.Observacion)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<a asp-action="Pendientes" asp-controller="Comanda" class="btn btn-secondary mt-3">
+    🔙 Volver a Comandas Pendientes
+</a>

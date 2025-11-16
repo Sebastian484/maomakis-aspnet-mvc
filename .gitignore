@@ -1,0 +1,12 @@
+# Visual Studio
+.vs/
+
+# Ignorar carpetas de compilación
+appRestauranteDSW_WebApi/bin/
+appRestauranteDSW_WebApi/obj/
+appRestauranteDSW_CoreMVC/bin/
+appRestauranteDSW_CoreMVC/obj/
+
+# Reglas globales para cualquier proyecto .NET
+bin/
+obj/

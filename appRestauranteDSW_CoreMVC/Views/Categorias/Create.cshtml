@@ -1,0 +1,35 @@
+﻿@model appRestauranteDSW_CoreMVC.Models.CategoriaPlato
+
+@{
+    ViewData["Title"] = "Crear Categoría";
+}
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header bg-success text-white">
+            <h4>➕ Crear Nueva Categoría</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="id" class="form-label"></label>
+                    <input asp-for="id" class="form-control" />
+                    <span asp-validation-for="id" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="nombre" class="form-label"></label>
+                    <input asp-for="nombre" class="form-control" />
+                    <span asp-validation-for="nombre" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">⬅️ Volver</a>
+                    <button type="submit" class="btn btn-success">💾 Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

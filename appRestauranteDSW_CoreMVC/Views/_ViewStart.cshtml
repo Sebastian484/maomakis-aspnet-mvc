@@ -1,0 +1,27 @@
+﻿@using System.Security.Claims
+@{
+    var user = Context.User;
+    string layout = "_Layout.cshtml"; // layout por defecto
+
+    if (user.Identity.IsAuthenticated)
+    {
+        if (user.IsInRole("Administrador"))
+        {
+            layout = "_Layout.cshtml";
+        }
+        else if (user.IsInRole("Mesero"))
+        {
+            layout = "_LayoutMesero.cshtml";
+        }
+        else if (user.IsInRole("Cajero"))
+        {
+            layout = "_LayoutCajero.cshtml";
+        }
+        else if (user.IsInRole("Cocinero"))
+        {
+            layout = "_LayoutCocinero.cshtml";
+        }
+    }
+
+    Layout = $"~/Views/Shared/{layout}";
+}

@@ -1,0 +1,37 @@
+﻿
+
+@model appRestauranteDSW_CoreMVC.Models.Empleado
+
+
+@{
+    Layout = null; // 👈 Esto evita que herede el _Layout.cshtml
+}
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="id" />
+    <div class="mb-3">
+        <label asp-for="nombre" class="form-label"></label>
+        <input asp-for="nombre" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="apellido" class="form-label"></label>
+        <input asp-for="apellido" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="dni" class="form-label"></label>
+        <input asp-for="dni" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="telefono" class="form-label"></label>
+        <input asp-for="telefono" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="cargo_id" class="form-label">Cargo</label>
+        <select asp-for="cargo_id" asp-items="ViewBag.Cargos" class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="usuario_id" class="form-label">Usuario</label>
+        <select asp-for="usuario_id" asp-items="ViewBag.Usuarios" class="form-select"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+</form>

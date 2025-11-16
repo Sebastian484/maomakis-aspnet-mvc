@@ -1,0 +1,95 @@
+﻿@model IEnumerable<appRestauranteDSW_CoreMVC.Models.Comanda>
+
+@{
+    ViewData["Title"] = "Comandas Pendientes";
+}
+
+<h2 class="mb-4"> Comandas Pendientes</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info text-center">
+        🎉 No hay comandas pendientes por preparar en este momento.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var comanda in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow border-0 text-center">
+                    <div class="card-body">
+                        <!-- Ícono grande -->
+                        <div class="mb-3">
+                            <i class="bi bi-journal-text text-primary" style="font-size: 3rem;"></i>
+                        </div>
+
+                        <h5 class="card-title fw-bold">Comanda #@comanda.Id</h5>
+                        <p class="card-text">
+                            <span class="d-block"><strong>Mesa:</strong> @comanda.MesaId</span>
+                            <span class="d-block"><strong>Asientos:</strong> @comanda.CantidadAsientos</span>
+                            <span class="d-block">Estado: <span class="badge bg-warning text-dark">Pendiente</span></span>
+                        </p>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <a class="btn btn-outline-primary btn-sm"
+                               asp-action="Detalles"
+                               asp-controller="Comanda"
+                               asp-route-id="@comanda.Id">
+                                Ver Detalles
+                            </a>
+
+                            <form asp-action="MarcarPreparado" asp-controller="Comanda" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@comanda.Id" />
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Preparado
+                                </button>
+                            </form>
+                        </div>
+
+                        <div id="detalles-comanda-@comanda.Id" class="detalles-comanda mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".ver-detalles").on("click", function () {
+                var comandaId = $(this).data("id");
+                var $contenedor = $("#detalles-comanda-" + comandaId);
+
+                // Si ya está cargado, alterna visibilidad
+                if ($contenedor.data("loaded") === true) {
+                    $contenedor.slideToggle(150);
+                    return;
+                }
+
+                $contenedor
+                    .html('<div class="text-muted">Cargando detalles...</div>')
+                    .slideDown(150);
+
+                // Desactiva el botón mientras carga (opcional)
+                var $btn = $(this).prop("disabled", true);
+
+                $.get("/Comanda/Detalles/" + comandaId)
+                    .done(function (html) {
+                        $contenedor.html(html);
+                        $contenedor.data("loaded", true);
+                    })
+                    .fail(function (xhr) {
+                        $contenedor.html(
+                            "<div class='text-danger'>Error al cargar detalles (" + xhr.status + ").</div>"
+                        );
+                    })
+                    .always(function () {
+                        $btn.prop("disabled", false);
+                    });
+            });
+        });
+    </script>
+}

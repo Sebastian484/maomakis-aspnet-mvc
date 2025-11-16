@@ -1,0 +1,51 @@
+﻿@model appRestauranteDSW_CoreMVC.Models.Mesas
+
+@{
+    ViewData["Title"] = "Editar Mesa";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Editar Mesa</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="id" class="form-label"></label>
+                    <input asp-for="id" class="form-control" readonly />
+                    <span asp-validation-for="id" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="cantidad_asientos" class="form-label"></label>
+                    <input asp-for="cantidad_asientos" class="form-control" placeholder="Ingrese cantidad de asientos" />
+                    <span asp-validation-for="cantidad_asientos" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="estado" class="form-label"></label>
+                    <input asp-for="estado" class="form-control" placeholder="Ingrese estado de la mesa" />
+                    <span asp-validation-for="estado" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary ms-2">
+                        <i class="bi bi-arrow-left"></i> Volver al listado
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

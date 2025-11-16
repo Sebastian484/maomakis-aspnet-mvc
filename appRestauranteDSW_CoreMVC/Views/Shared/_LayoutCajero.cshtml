@@ -1,0 +1,72 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - appRestauranteDSW_CoreMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        /* Div superior derecho para usuario/logout */
+        .user-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar d-flex flex-column p-3">
+        <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <img src="~/images/logoMaoMakis.jpg" alt="Logo MaoMakis" class="logo-img" style="height:50px; width:auto; margin-right:10px;" />
+            <span class="fs-4">MaoMakis</span>
+        </a>
+        <hr class="text-white" />
+
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a class="nav-link" asp-controller="Home" asp-action="Index">🏠 Inicio</a></li>
+            <li><a class="nav-link" asp-controller="Comprobantes" asp-action="Index">🧾 Comprobantes</a></li>
+            <li><a class="nav-link" asp-controller="MetodosPago" asp-action="Index">💳 Métodos de Pago</a></li>
+
+            <li>
+                <a class="nav-link" asp-controller="Comanda" asp-action="Preparadas">💳Facturar Comandas</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        @* Panel superior para usuario *@
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="mb-3 p-2 bg-light border rounded d-flex justify-content-between align-items-center">
+                <span>👤 @User.Identity.Name</span>
+                <form asp-controller="Login" asp-action="Logout" method="post" class="mb-0">
+                    <button type="submit" class="btn btn-sm btn-danger">Cerrar sesión</button>
+                </form>
+            </div>
+        }
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+
+        <footer class="mt-auto">
+            <div>
+                &copy; 2025 - appRestauranteDSW_CoreMVC
+            </div>
+        </footer>
+    </div>
+
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿@model appRestauranteDSW_CoreMVC.Models.Mesas
+
+@{
+    ViewData["Title"] = "Detalles de la Mesa";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Detalles de la Mesa</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.id)</dd>
+
+                <dt class="col-sm-3">Cantidad de Asientos</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.cantidad_asientos)</dd>
+
+                <dt class="col-sm-3">Estado</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.estado)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a asp-action="Edit" asp-route-id="@Model.id" class="btn btn-primary me-2">
+            <i class="bi bi-pencil-square"></i> Editar
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver al listado
+        </a>
+    </div>
+</div>

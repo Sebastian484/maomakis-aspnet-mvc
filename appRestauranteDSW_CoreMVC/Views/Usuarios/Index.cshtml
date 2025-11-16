@@ -1,0 +1,64 @@
+﻿@model IEnumerable<appRestauranteDSW_CoreMVC.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Usuarios</h1>
+
+<!-- Barra de búsqueda -->
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="filtro" class="form-control" placeholder="Buscar por código o correo..." value="@Context.Request.Query["filtro"]" />
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.contrasena)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.verificado)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.codigo</td>
+                <td>@item.contrasena</td>
+                <td>@item.correo</td>
+                <td>
+                    @(item.verificado == true ? "Activo" : "Desactivado")
+                </td>
+                <td>
+                    @if (item.verificado==true)
+                    {
+                        <form asp-action="Desactivar" asp-route-id="@item.id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-warning btn-sm">Desactivar</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Desactivado</span>
+                    }
+                </td>
+            </tr>
+}
+    </tbody>
+</table>

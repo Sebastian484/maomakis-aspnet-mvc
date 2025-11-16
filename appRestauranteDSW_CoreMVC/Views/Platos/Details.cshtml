@@ -1,0 +1,45 @@
+﻿@model appRestauranteDSW_CoreMVC.Models.Plato
+
+@{
+    ViewData["Title"] = "Detalles del Plato";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="row g-0">
+            <!-- Imagen del plato -->
+            <div class="col-md-4 text-center p-3">
+                @if (!string.IsNullOrEmpty(Model.imagen))
+                {
+                    <img src="@Model.imagen" alt="@Model.nombre"
+                         class="img-fluid rounded shadow-sm"
+                         style="max-height: 250px; object-fit: cover;" />
+                }
+                else
+                {
+                    <div class="bg-light d-flex align-items-center justify-content-center"
+                         style="height: 250px;">
+                        <span class="text-muted">Sin imagen</span>
+                    </div>
+                }
+            </div>
+
+            <!-- Información del plato -->
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.nombre</h2>
+                    <p class="card-text">
+                        <strong>Precio:</strong> @Model.precio_plato <br />
+                        <strong>Categoría:</strong> @ViewBag.CategoriaNombre
+                    </p>
+
+                    <div class="mt-4">
+                        <a asp-action="Edit" asp-route-id="@Model.id" class="btn btn-warning me-2">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@Model.id" class="btn btn-danger me-2">Eliminar</a>
+                        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

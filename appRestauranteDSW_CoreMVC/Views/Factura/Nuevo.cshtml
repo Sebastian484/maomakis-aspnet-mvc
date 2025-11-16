@@ -1,0 +1,227 @@
+﻿@model appRestauranteDSW_CoreMVC.Models.FacturaViewModel
+
+@{
+    ViewData["Title"] = "Generar Factura";
+}
+
+<h2 class="mb-4">🧾 Generar Comprobante</h2>
+
+<div class="row">
+    <!-- Columna izquierda: Formulario -->
+    <div class="col-md-6">
+        <form asp-action="GenerarFactura" asp-controller="Factura" method="post">
+            <input type="hidden" asp-for="Comprobante.ComandaId" />
+
+            <div class="mb-3">
+                <label class="form-label">Empleado</label>
+                <input type="text" class="form-control" value="@Model.Comprobante.EmpleadoId" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo de Comprobante</label>
+                <select class="form-select" asp-for="Comprobante.TipoComprobanteId" required>
+                    <option value="">-- Seleccione --</option>
+                    @foreach (var tipo in Model.TiposComprobante)
+                    {
+                        <option value="@tipo.Id">@tipo.Tipo</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Cliente (opcional)</label>
+                <input type="number" class="form-control" asp-for="Comprobante.ClienteId" placeholder="ID del cliente (si aplica)" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Pagos</label>
+
+                <!-- Pago fijo inicial -->
+                <div class="card p-3 mb-2 shadow-sm pago-item">
+                    <div class="row">
+                        <div class="col-6">
+                            <select name="DetalleComprobante[0].metodo_pago_id" class="form-select">
+                                <option value="">-- Seleccione método --</option>
+                                @foreach (var metodo in Model.MetodosPago)
+                                {
+                                    <option value="@metodo.id">@metodo.metodo</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <input type="number" step="0.01" class="form-control monto-pago"
+                                   name="DetalleComprobante[0].monto_pago" placeholder="Monto"
+                                   oninput="calcularFaltaPagar()" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aquí se agregan dinámicamente más pagos -->
+                <div id="pagos-container"></div>
+
+                <!-- Botón para añadir -->
+                <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="agregarPago()">+ Agregar Método de Pago</button>
+            </div>
+
+            <!-- Hidden inputs para enviar al POST -->
+            <input asp-for="Comprobante.SubTotal" type="hidden" />
+            <input asp-for="Comprobante.IgvTotal" type="hidden" />
+            <input asp-for="Comprobante.PrecioTotalPedido" type="hidden" />
+            <input asp-for="Comprobante.EmpleadoId" type="hidden" />
+            <input asp-for="Comprobante.FechaEmision" type="hidden" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" />
+
+
+            <div class="d-flex justify-content-end">
+                <a asp-controller="Comanda" asp-action="Preparadas" class="btn btn-secondary me-2">Cancelar</a>
+                <button type="submit" class="btn btn-primary" id="btn-generar" disabled>💵 Generar Factura</button>
+
+            </div>
+        </form>
+    </div>
+
+    <!-- Columna derecha: Detalles de la comanda -->
+    <div class="col-md-6">
+        <h4>🍽️ Detalle de la Comanda</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var det in Model.Detalles)
+                {
+                    <tr>
+                        <td>@det.NombrePlato</td>
+                        <td>@det.Cantidad</td>
+                        <td>S/ @det.Subtotal.ToString("0.00")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- Totales debajo de la tabla -->
+        <div class="mt-3 p-3 border rounded bg-light">
+            <div class="row mb-2">
+                <div class="col-6 text-end fw-bold">Subtotal:</div>
+                <div class="col-6 text-end">S/ @Model.Comprobante.SubTotal?.ToString("0.00")</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6 text-end fw-bold">IGV (18%):</div>
+                <div class="col-6 text-end">S/ @Model.Comprobante.IgvTotal?.ToString("0.00")</div>
+            </div>
+            <div class="row border-top pt-2">
+                <div class="col-6 text-end fw-bold">Total:</div>
+                <div class="col-6 text-end fw-bold text-primary">S/ @Model.Comprobante.PrecioTotalPedido?.ToString("0.00")</div>
+            </div>
+        </div>
+        <div class="row border-top pt-2 mt-2">
+            <div class="col-6 text-end fw-bold text-danger">Falta Pagar:</div>
+            <div class="col-6 text-end fw-bold text-danger" id="falta-pagar">
+                S/ @Model.Comprobante.PrecioTotalPedido?.ToString("0.00")
+            </div>
+        </div>
+
+    </div>
+ </div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="facturaModal" tabindex="-1" aria-labelledby="facturaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="facturaModalLabel">✅ Factura Generada</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                La factura ha sido generada correctamente.
+            </div>
+            <div class="modal-footer">
+                <a asp-controller="Comanda" asp-action="Preparadas" class="btn btn-primary">Ir a Comandas</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        let pagoIndex = 1;
+        const totalFactura = parseFloat("@Model.Comprobante.PrecioTotalPedido?.ToString("0.00")".replace(",", "."));
+
+        function agregarPago() {
+            let container = document.getElementById("pagos-container");
+            let html = `
+                <div class="card p-3 mb-2 shadow-sm pago-item">
+                    <div class="row">
+                        <div class="col-6">
+                            <select name="DetalleComprobante[${pagoIndex}].metodo_pago_id" class="form-select">
+                                <option value="">-- Seleccione método --</option>
+        @foreach (var metodo in Model.MetodosPago)
+        {
+                                        <option value="@metodo.id">@metodo.metodo</option>
+        }
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" step="0.01" class="form-control monto-pago"
+                                   name="DetalleComprobante[${pagoIndex}].monto_pago" placeholder="Monto"
+                                   oninput="calcularFaltaPagar()" />
+                        </div>
+                        <div class="col-2 d-flex align-items-center">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminarPago(this)">✖</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML("beforeend", html);
+            pagoIndex++;
+            calcularFaltaPagar();
+        }
+
+        function eliminarPago(btn) {
+            btn.closest(".pago-item").remove();
+            calcularFaltaPagar();
+        }
+
+        function calcularFaltaPagar() {
+            let montos = document.querySelectorAll(".monto-pago");
+            let sumaPagos = 0;
+
+            montos.forEach(input => {
+                let val = parseFloat(input.value);
+                if (!isNaN(val)) sumaPagos += val;
+            });
+
+            let falta = totalFactura - sumaPagos;
+            falta = Math.max(falta, 0);
+
+            document.getElementById("falta-pagar").innerText = "S/ " + falta.toFixed(2);
+
+            // habilitar botón solo si está cuadrado
+            document.getElementById("btn-generar").disabled = (falta !== 0);
+        }
+
+        window.onload = calcularFaltaPagar;
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var facturaId = '@TempData["FacturaGenerada"]';
+            if (facturaId) {
+                var modal = new bootstrap.Modal(document.getElementById("facturaModal"));
+                modal.show();
+
+                // 🔁 Redirigir automáticamente después de 3 segundos
+                setTimeout(() => {
+                    window.location.href = '@Url.Action("Preparadas", "Comanda")';
+                }, 3000);
+            }
+        });
+    </script>
+
+}
+
+
+

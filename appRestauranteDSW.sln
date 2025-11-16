@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "appRestauranteDSW_WebApi", "appRestauranteDSW_WebApi\appRestauranteDSW_WebApi.csproj", "{E7944C1E-C409-4C34-80FD-F73D8F54BD79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "appRestauranteDSW_CoreMVC", "appRestauranteDSW_CoreMVC\appRestauranteDSW_CoreMVC.csproj", "{389A0C4B-63A7-4544-93DD-618BE5EE2A58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7944C1E-C409-4C34-80FD-F73D8F54BD79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7944C1E-C409-4C34-80FD-F73D8F54BD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7944C1E-C409-4C34-80FD-F73D8F54BD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7944C1E-C409-4C34-80FD-F73D8F54BD79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{389A0C4B-63A7-4544-93DD-618BE5EE2A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{389A0C4B-63A7-4544-93DD-618BE5EE2A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{389A0C4B-63A7-4544-93DD-618BE5EE2A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{389A0C4B-63A7-4544-93DD-618BE5EE2A58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4CDA677-BD7A-4726-8AD6-4D3719A7D323}
+	EndGlobalSection
+EndGlobal

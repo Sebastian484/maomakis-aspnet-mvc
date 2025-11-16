@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "appRestauranteDSW_WebApi\\appRestauranteDSW_WebApi.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "appRestauranteDSW_CoreMVC\\appRestauranteDSW_CoreMVC.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

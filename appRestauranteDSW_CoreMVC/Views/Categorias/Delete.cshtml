@@ -1,0 +1,31 @@
+﻿@model appRestauranteDSW_CoreMVC.Models.CategoriaPlato
+
+@{
+    ViewData["Title"] = "Eliminar Categoría";
+}
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h4>🗑 Eliminar Categoría</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-danger fw-bold">¿Estás seguro de que deseas eliminar esta categoría?</p>
+
+            <dl class="row">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.id)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.id)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.nombre)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.nombre)</dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">⬅️ Cancelar</a>
+                    <button type="submit" class="btn btn-danger">✔️ Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿@model appRestauranteDSW_CoreMVC.Models.Plato
+
+@{
+    ViewData["Title"] = "Crear Plato";
+    var categorias = ViewBag.Categorias as List<appRestauranteDSW_CoreMVC.Models.CategoriaPlato>;
+}
+
+<h2>Crear Nuevo Plato</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="nombre" class="control-label"></label>
+                <input asp-for="nombre" class="form-control" />
+                <span asp-validation-for="nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="precio_plato" class="control-label"></label>
+                <input asp-for="precio_plato" class="form-control" />
+                <span asp-validation-for="precio_plato" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Imagen del Plato</label>
+                <input type="file" name="ImagenFile" class="form-control" accept="image/*" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="categoria_plato_id" class="control-label">Categoría</label>
+                <select asp-for="categoria_plato_id" class="form-control"
+                        asp-items="@(new SelectList(categorias, "id", "nombre"))">
+                    <option value="">-- Seleccione una categoría --</option>
+                </select>
+                <span asp-validation-for="categoria_plato_id" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
